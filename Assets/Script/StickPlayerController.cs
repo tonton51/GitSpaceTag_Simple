@@ -6,11 +6,12 @@ using Photon.Realtime;
 using TMPro;
 using ExitGames.Client.Photon;
 
+// 棒に繋がれたような動きをするプレイヤーの動きのスクリプト
 public class StickPlayerController : MonoBehaviourPunCallbacks, IOnEventCallback
 {
-    public static int[] point=new int[2];
-    private const byte INPUT_EVENT_CODE = 1;
-    private const byte PointEventCode=2;
+    public static int[] point=new int[2]; // それぞれの取得したポイント
+    private const byte InputKeyEventCode = 1; // 入力キー送信用イベントコード
+    private const byte PointEventCode=2; // ポイント送信用イベントコード
     Rigidbody2D rb;
 
     // プレイヤーの入力状態
@@ -19,7 +20,7 @@ public class StickPlayerController : MonoBehaviourPunCallbacks, IOnEventCallback
     // 受信した相手プレイヤーの入力状態
     private bool otherLeftKey, otherRightKey;
 
-    public static bool flag = false;
+    public static bool flag = false; // 入力一致判定用フラグ
 
     public float moveSpeed = 5f;  // プレイヤーの移動速度
 
@@ -53,30 +54,20 @@ public class StickPlayerController : MonoBehaviourPunCallbacks, IOnEventCallback
 
     void Update()
     {
-        // if (photonView.IsMine)
-        // {
-        //     StickPlayerController.flag = false;  // まずはfalseにリセット
-
-        //     CheckInput();
-        //     SendInputEvent();
-
-        //     if (CheckIfInputsMatch())
-        //     {
-        //         StickPlayerController.flag = true;
-        //         MovePlayer();
-        //         // Debug.Log("Inputs match! Both players are pressing the same keys.");
-        //     }
-        // }
         if (photonView.IsMine)
         {
-            StickPlayerController.flag = false;  // まずはfalseにリセット
+            // StickPlayerController.flag = false;  // まずはfalseにリセット
+            flag=false; // 0907変更、変更前は上の行
 
-            CheckInput();
-            SendInputEvent();
+            CheckInput(); // 左右キーの入力状態を取得
+            SendInputEvent(); // 入力状態を送信
 
+            // 自身の入力状態と相手の入力状態が一致しているかどうかを判定
             if (CheckIfInputsMatch())
             {
-                StickPlayerController.flag = true;
+                // StickPlayerController.flag = true;
+                flag=true; // 0907変更、変更前は上の行
+
                 MovePlayer();  // 一致したときのみMovePlayerを呼び出す
             }
             else
@@ -86,22 +77,26 @@ public class StickPlayerController : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
+    // 左右キーの入力状態を取得
     void CheckInput()
     {
+        // 押されている間はtrue、押されていない間はfalse
         leftKey = Input.GetKey(KeyCode.LeftArrow);
         rightKey = Input.GetKey(KeyCode.RightArrow);
     }
 
+    // 入力状態を送信
     void SendInputEvent()
     {
         object[] content = new object[] { leftKey, rightKey };
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
-        PhotonNetwork.RaiseEvent(INPUT_EVENT_CODE, content, raiseEventOptions, SendOptions.SendReliable);
+        PhotonNetwork.RaiseEvent(InputKeyEventCode, content, raiseEventOptions, SendOptions.SendReliable);
     }
 
     public void OnEvent(EventData photonEvent)
     {
-        if (photonEvent.Code == INPUT_EVENT_CODE)
+        // 受信した入力状態を取得
+        if (photonEvent.Code == InputKeyEventCode)
         {
             object[] data = (object[])photonEvent.CustomData;
             otherLeftKey = (bool)data[0];
@@ -115,6 +110,7 @@ public class StickPlayerController : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
+    // 自身の入力状態と相手の入力状態が一致しているかどうかを判定
     bool CheckIfInputsMatch()
     {
         return leftKey == otherLeftKey && rightKey == otherRightKey;
@@ -134,6 +130,8 @@ public class StickPlayerController : MonoBehaviourPunCallbacks, IOnEventCallback
         }
 
         rb.velocity = movement.normalized * moveSpeed;
+        
+        // transform.positionを使った移動 物理演算を無視するので非推奨
         // Vector3 moveDirection = Vector3.zero;
 
         // if (leftKey)

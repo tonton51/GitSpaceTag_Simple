@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+// アイテムを生成するためのスクリプト
 public class ItemGenerator : MonoBehaviourPunCallbacks
 {
-    float span=3.0f;
+    float span=3.0f; // アイテム生成間隔
     float delta=0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

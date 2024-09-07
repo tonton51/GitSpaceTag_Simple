@@ -7,19 +7,20 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine.SceneManagement;
 
+// 役割表示のUIに関するスクリプト
 public class ExplainText : MonoBehaviourPunCallbacks,IOnEventCallback
 {
-    private const byte ButtonEventCode=1;
+    private const byte ButtonEventCode=1; // ボタンクリック判定用のイベントコード
     public GameObject button;
     public TextMeshProUGUI Role;
-    // public TextMeshProUGUI Explain;
+    // public TextMeshProUGUI Explain; // それぞれの役割に応じた説明文
     public GameObject kumaex;
     public GameObject rocketex;
     int buttoncount=0;
     // Start is called before the first frame update
     void Start()
     {
-        
+        // それぞれのActorNumberに応じて画像と説明文を生成
         if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
         {
             Instantiate(kumaex, new Vector3(0, 0, 0), Quaternion.identity);
@@ -34,13 +35,15 @@ public class ExplainText : MonoBehaviourPunCallbacks,IOnEventCallback
             // Explain.text="星を避けてください";
 
         }
-        PhotonNetwork.AddCallbackTarget(this);
+        PhotonNetwork.AddCallbackTarget(this); // ボタンクリック判定用のイベントコールバック
     }
 
+    // 他のシーンでもイベントが残らないようにするためのメソッド
     void OnDestroy(){
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
+    // ボタンがクリックされたら準備完了でボタンの表示を消す
     public void OnClick(){
         RaiseEventOptions raiseEventOptions=new RaiseEventOptions{
             Receivers=ReceiverGroup.All
@@ -49,6 +52,7 @@ public class ExplainText : MonoBehaviourPunCallbacks,IOnEventCallback
         button.SetActive(false);
     }
 
+    // ボタンが押されたことを相手に知らせるため
     public void OnEvent(EventData photonEvent){
         if(photonEvent.Code==ButtonEventCode){
             buttoncount+=1;
@@ -58,9 +62,9 @@ public class ExplainText : MonoBehaviourPunCallbacks,IOnEventCallback
     // Update is called once per frame
     void Update()
     {
+        // 両方のプレイヤーが準備完了したらゲームシーンに移行
         if(buttoncount==2){
             SceneManager.LoadScene("GameScene");
-            // PhotonNetwork.LoadLevel("GameScene");
         }
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+
+// マッチング用のスクリプト
 public class PhotonMaster : MonoBehaviourPunCallbacks
 {
     // コメントアウトした部分はUIをテキスト表示する際に使うかもなので残しておく

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Photon.Pun;
  
+ // プレイヤーを生成するためのスクリプト
 public class StickPlayerGenerator : MonoBehaviourPunCallbacks
 {
     private GameObject kuma;

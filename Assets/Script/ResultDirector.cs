@@ -4,6 +4,7 @@ using UnityEngine;
 
 using TMPro;
 
+// 結果表示用スクリプト
 public class ResultDirector : MonoBehaviour
 {
     public TextMeshProUGUI Rocketresult;
@@ -13,11 +14,5 @@ public class ResultDirector : MonoBehaviour
     {
         Kumaresult.text="Kuma"+GameDirector.Rpoint[0].ToString();
         Rocketresult.text="Rocket"+GameDirector.Rpoint[1].ToString();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

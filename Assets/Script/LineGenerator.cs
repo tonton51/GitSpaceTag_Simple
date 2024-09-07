@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  
+// 2つのオブジェクト間にラインを引くスクリプト
 public class LineGenerator : MonoBehaviour
 {
     private LineRenderer line;
