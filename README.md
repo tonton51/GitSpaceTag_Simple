@@ -1,0 +1,2 @@
+Asset,Packages,ProjectSettingsの3つを追加
+動くか別端末でダウンロードして確認する必要有
