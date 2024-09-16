@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4618872461178022128}
   m_Layer: 14
   m_Name: rocket
-  m_TagString: Player
+  m_TagString: rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202,4 +202,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e45e2c08ef104ccab099e6d2b81391a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checktext: {fileID: 2999926453991243196, guid: 70158c348442a458aaf9e57255a2fad7, type: 3}
+  moveSpeed: 5
